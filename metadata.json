@@ -1,0 +1,6 @@
+{
+  "name": "Al Mayar Star",
+  "description": "متجر الميار ستار لملابس النساء الأنيقة والراقية - تجربة تسوق ممتازة وسهلة مع لوحة تحكم متكاملة لإدارة المنتجات والطلبات والاتصال والدفع.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

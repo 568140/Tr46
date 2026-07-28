@@ -1,0 +1,149 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Store products metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "oldPrice": { "type": "number" },
+        "images": { "type": "array" },
+        "sizes": { "type": "array" },
+        "colors": { "type": "array" },
+        "category": { "type": "string" },
+        "inStock": { "type": "boolean" },
+        "isNew": { "type": "boolean" },
+        "isFeatured": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "price", "images", "category", "inStock", "createdAt"]
+    },
+    "StoreSettings": {
+      "title": "StoreSettings",
+      "description": "General settings for the store storefront",
+      "type": "object",
+      "properties": {
+        "storeName": { "type": "string" },
+        "whatsappNumber": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "logoText": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "allowCashOnDelivery": { "type": "boolean" },
+        "announcementText": { "type": "string" },
+        "announcementActive": { "type": "boolean" }
+      },
+      "required": ["storeName", "whatsappNumber", "contactPhone", "logoText", "allowCashOnDelivery"]
+    },
+    "Wallet": {
+      "title": "Wallet",
+      "description": "Digital electronic wallets registered for store payments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "numberOrAddress": { "type": "string" },
+        "holderName": { "type": "string" },
+        "instructions": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["id", "name", "numberOrAddress", "active"]
+    },
+    "BannerAd": {
+      "title": "BannerAd",
+      "description": "Slidshow banners for advertisements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "link": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["id", "title", "imageUrl", "active"]
+    },
+    "SystemNotification": {
+      "title": "SystemNotification",
+      "description": "Push notification messages for customers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "type": { "type": "string", "enum": ["info", "sale", "alert"] },
+        "createdAt": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["id", "title", "message", "type", "createdAt", "active"]
+    },
+    "SystemUser": {
+      "title": "SystemUser",
+      "description": "Internal staff users and login credentials",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "username": { "type": "string" },
+        "displayName": { "type": "string" },
+        "passwordHash": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "sales", "cs"] },
+        "active": { "type": "boolean" }
+      },
+      "required": ["id", "username", "displayName", "passwordHash", "role", "active"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer purchase orders",
+      "type": "object",
+      "properties": {
+        "orderNumber": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "customerCity": { "type": "string" },
+        "customerAddress": { "type": "string" },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["cash", "wallet"] },
+        "walletId": { "type": "string" },
+        "walletName": { "type": "string" },
+        "walletNumber": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "processing", "completed", "cancelled"] },
+        "createdAt": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["orderNumber", "customerName", "customerPhone", "customerCity", "customerAddress", "items", "totalAmount", "paymentMethod", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Product collection"
+    },
+    "/settings/{settingsId}": {
+      "schema": "StoreSettings",
+      "description": "General settings"
+    },
+    "/wallets/{walletId}": {
+      "schema": "Wallet",
+      "description": "Wallets"
+    },
+    "/banners/{bannerId}": {
+      "schema": "BannerAd",
+      "description": "Advertising banners"
+    },
+    "/notifications/{notifId}": {
+      "schema": "SystemNotification",
+      "description": "Floating announcements"
+    },
+    "/users/{userId}": {
+      "schema": "SystemUser",
+      "description": "User login credentials"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Store orders"
+    }
+  }
+}
