@@ -1344,7 +1344,7 @@ export default function StoreFront({ onOpenAdmin, cart, setCart }: StoreFrontPro
               <h4 className="text-white font-serif font-black text-lg">{settings.storeName}</h4>
             </div>
             <p className="text-xs text-stone-500 font-light leading-relaxed">
-              متجر الميار لملابس النساء الأنيقة والراقية في العراق. نوفر لكِ تشكيلة واسعة من فساتين السهرة والجلابيات والعبايات المصنوعة بأعلى جودة.
+              {settings.footerDescription || "متجر الميار لملابس النساء الأنيقة والراقية في العراق. نوفر لكِ تشكيلة واسعة من فساتين السهرة والجلابيات والعبايات المصنوعة بأعلى جودة."}
             </p>
           </div>
 

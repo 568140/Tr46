@@ -581,7 +581,8 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
     whatsappNumber: "",
     allowCashOnDelivery: true,
     announcementText: "",
-    announcementActive: true
+    announcementActive: true,
+    footerDescription: ""
   });
 
   useEffect(() => {
@@ -594,7 +595,8 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
         whatsappNumber: settings.whatsappNumber || "",
         allowCashOnDelivery: settings.allowCashOnDelivery !== false,
         announcementText: settings.announcementText || "",
-        announcementActive: settings.announcementActive !== false
+        announcementActive: settings.announcementActive !== false,
+        footerDescription: settings.footerDescription || "متجر الميار لملابس النساء الأنيقة والراقية في العراق. نوفر لكِ تشكيلة واسعة من فساتين السهرة والجلابيات والعبايات المصنوعة بأعلى جودة."
       });
     }
   }, [settings]);
@@ -1328,6 +1330,18 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
                     className="w-4 h-4 text-brand-primary focus:ring-brand-primary rounded"
                   />
                   <label htmlFor="cod-active" className="text-xs font-bold text-brand-text-secondary cursor-pointer">إتاحة خيار "الدفع عند الاستلام (COD)" للزبونات</label>
+                </div>
+
+                {/* Footer Description */}
+                <div className={`border-t border-brand-border/40 pt-4`}>
+                  <label className="block text-xs font-bold text-brand-text mb-1">وصف المتجر (في أسفل الصفحة)</label>
+                  <textarea
+                    rows={3}
+                    placeholder="اكتب وصف المتجر الذي سيظهر في أسفل الصفحة الرئيسية..."
+                    value={contactSettings.footerDescription}
+                    onChange={(e) => setContactSettings({ ...contactSettings, footerDescription: e.target.value })}
+                    className={`w-full px-4 py-2.5 rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary text-sm`}
+                  />
                 </div>
 
                 <button

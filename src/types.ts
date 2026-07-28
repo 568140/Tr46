@@ -94,4 +94,5 @@ export interface StoreSettings {
   primaryColor?: string;
   announcementText?: string;
   announcementActive?: boolean;
+  footerDescription?: string;
 }
