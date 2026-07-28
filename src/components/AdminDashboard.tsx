@@ -251,6 +251,91 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
     return price.toLocaleString("ar-IQ") + " د.ع";
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []) as File[];
+    if (files.length === 0) return;
+
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const MAX_WIDTH = 800;
+          const MAX_HEIGHT = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          const base64String = canvas.toDataURL("image/jpeg", 0.7);
+          
+          setProductForm(prev => {
+            const currentImages = prev.images.trim();
+            const separator = currentImages.length > 0 && !currentImages.endsWith(",") ? ", " : "";
+            return { ...prev, images: currentImages + separator + base64String };
+          });
+        };
+        img.src = event.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleBannerImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 1200;
+        const MAX_HEIGHT = 600;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+        
+        const base64String = canvas.toDataURL("image/jpeg", 0.7);
+        setBannerForm(prev => ({ ...prev, imageUrl: base64String }));
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
   // Auto import product from URL and sync to database
   const handleAutoImportFromUrl = async () => {
     if (!importUrl) {
@@ -517,7 +602,7 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
   const handleSaveContactSettings = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await setDoc(doc(db, "settings", "main"), contactSettings);
+      await setDoc(doc(db, "settings", "main"), contactSettings, { merge: true });
       alert("تم حفظ إعدادات المتجر وبيانات التواصل بنجاح!");
     } catch (e) {
       alert("فشل حفظ التعديلات.");
@@ -1651,15 +1736,27 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-brand-text mb-1">روابط الصور (مفصولة بفارزة , لتعدد الصور)</label>
-                  <input
-                    type="text"
-                    value={productForm.images}
-                    onChange={(e) => setProductForm({ ...productForm, images: e.target.value })}
-                    placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg"
-                    className={`w-full px-4 py-2 rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary text-left`}
-                    style={{ direction: "ltr" }}
-                  />
+                  <label className="block font-bold text-brand-text mb-1">روابط الصور أو رفع من الجهاز (مفصولة بفارزة)</label>
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      value={productForm.images}
+                      onChange={(e) => setProductForm({ ...productForm, images: e.target.value })}
+                      placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg"
+                      className={`flex-1 px-4 py-2 rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary text-left`}
+                      style={{ direction: "ltr" }}
+                    />
+                    <label className="bg-stone-100 hover:bg-stone-200 border border-stone-300 text-stone-700 px-4 py-2 rounded-xl cursor-pointer text-xs font-bold shrink-0 transition-colors">
+                      📁 رفع صورة
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        multiple
+                        className="hidden" 
+                        onChange={handleImageUpload} 
+                      />
+                    </label>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
@@ -1865,15 +1962,26 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-brand-text mb-1">رابط صورة البنر البصرية المباشر *</label>
-                  <input
-                    type="text"
-                    required
-                    value={bannerForm.imageUrl}
-                    onChange={(e) => setBannerForm({ ...bannerForm, imageUrl: e.target.value })}
-                    className={`w-full px-4 py-2 rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary text-left`}
-                    style={{ direction: "ltr" }}
-                  />
+                  <label className="block font-bold text-brand-text mb-1">رابط صورة البنر أو رفع من الجهاز *</label>
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      required
+                      value={bannerForm.imageUrl}
+                      onChange={(e) => setBannerForm({ ...bannerForm, imageUrl: e.target.value })}
+                      className={`flex-1 px-4 py-2 rounded-xl border border-brand-border focus:outline-none focus:border-brand-primary text-left`}
+                      style={{ direction: "ltr" }}
+                    />
+                    <label className="bg-stone-100 hover:bg-stone-200 border border-stone-300 text-stone-700 px-4 py-2 rounded-xl cursor-pointer text-xs font-bold shrink-0 transition-colors">
+                      📁 رفع صورة
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden" 
+                        onChange={handleBannerImageUpload} 
+                      />
+                    </label>
+                  </div>
                 </div>
 
                 <div>
