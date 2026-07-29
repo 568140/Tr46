@@ -38,7 +38,7 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
     contactPhone: "07712345678",
     logoText: "الميار ستار ⭐ Al Mayar Star",
     allowCashOnDelivery: true,
-    announcementText: "✨ أهلاً بكم في متجر الميار ستار لملابس النساء الأنيقة - شحن سريع لكافة المحافظات ✨",
+    announcementText: "أهلاً بكم في متجر الميار ستار لملابس النساء الأنيقة - شحن سريع لكافة المحافظات ✨",
     announcementActive: true
   });
   const [banners, setBanners] = useState<BannerAd[]>([]);
