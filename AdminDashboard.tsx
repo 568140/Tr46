@@ -636,7 +636,7 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
         allowCashOnDelivery: settings.allowCashOnDelivery !== false,
         announcementText: settings.announcementText || "",
         announcementActive: settings.announcementActive !== false,
-        footerDescription: settings.footerDescription || "متجر الميار لملابس النساء الأنيقة والراقية في العراق. نوفر لكِ تشكيلة واسعة من فساتين السهرة والجلابيات والعبايات المصنوعة بأعلى جودة.",
+        footerDescription: settings.footerDescription || "متجر الميار لملابس النساء الأنيقة والراقية في اليمن. نوفر لكِ تشكيلة واسعة من فساتين السهرة والجلابيات والعبايات المصنوعة بأعلى جودة.",
         facebookUrl: settings.facebookUrl || "",
         instagramUrl: settings.instagramUrl || "",
         tiktokUrl: settings.tiktokUrl || ""
@@ -686,7 +686,7 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
               <input
                 type="text"
                 required
-                placeholder="أدخل اسم الحساب (مثال: admin)"
+                placeholder="أدخل اسم الحساب (مثال: noran)"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className={`w-full px-4 py-3 rounded-xl border ${theme.border.base} focus:outline-none focus:border-brand-primary ${theme.bg.secondary}/50 text-sm`}
