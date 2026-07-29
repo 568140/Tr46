@@ -250,7 +250,7 @@ export default function StoreFront({ onOpenAdmin, cart, setCart }: StoreFrontPro
 
   // Format currency
   const formatPrice = (price: number) => {
-    return price.toLocaleString("ar-IQ") + " د.ع";
+    return price.toLocaleString("ar-YM") + "ريال.يمني قديم";
   };
 
   // Handle Order Submit
